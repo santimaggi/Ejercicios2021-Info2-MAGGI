@@ -1,0 +1,99 @@
+(COMENTADO DEL PRIMERO)
+#include <Arduino.h>
+void setup()
+{
+  pinMode(2, OUTPUT); //led 1
+  pinMode(3, OUTPUT); //led 2
+  pinMode(4, OUTPUT); //led 3
+  pinMode(5, INPUT_PULLUP); //pulsador
+  pinMode(6, INPUT_PULLUP); //pulsador
+}
+
+int sentido = 0; //introduzco una variable igual a 0  
+
+void loop() //es algo que se repite continuamente
+{
+  if (digitalRead(5) == LOW)
+  {
+    sentido = 0; //inicializo sentido con pulsador 5 para que haga 2 --> 3 --> 4 --> 2...
+  }
+  else if (digitalRead(6) == LOW)
+  {
+    sentido = 1; //inicializo sentido con pulsador 6 para que haga 4 --> 3 --> 2 --> 4...
+  }
+  if (sentido == 0) // cuando sentido es 0 y se inicializa esto (2 --> 3 --> 4 --> 2...)
+  {
+    digitalWrite(2,HIGH);
+    delay(500);
+    digitalWrite(2,LOW);
+    digitalWrite(3,HIGH);
+    delay(500);
+    digitalWrite(3,LOW);
+    digitalWrite(4,HIGH);
+    delay(500);
+    digitalWrite(4,LOW);
+  }  
+  else // cuando sentido no es 0 es 1 y se inicializa esto (4 --> 3 --> 2 --> 4...)
+  {
+    digitalWrite(4,HIGH);
+    delay(500);
+    digitalWrite(4,LOW);
+    digitalWrite(3,HIGH);
+    delay(500);
+    digitalWrite(3,LOW);
+    digitalWrite(2,HIGH);
+    delay(500);
+    digitalWrite(2,LOW);
+  }
+}
+------------------------------------------------------------------------------------------------------------
+(HECHO POR MI VIENDO EL DEL PROFE)
+#include <Arduino.h>
+#define NumeroDeLeds 3
+#define NumerosDePulsadores 2
+#define TiempoDeDuracion 1000
+#define SecuenciaAscendente 0
+#define SecuenciaDescendente 1
+
+int LED [NumeroDeLeds]={3,4,5};
+int PULSADOR [NumerosDePulsadores]={10,11};
+int SentidoDelLed=0;
+int EstadoDelLed=0;
+
+void setup(){ 
+ for(int k;k<NumeroDeLeds;k++){
+  pinMode(LED[k],OUTPUT);
+ }
+ for(int t;t<NumerosDePulsadores;t++){
+  pinMode(PULSADOR[t],OUTPUT);
+ }
+ }
+
+void loop() {
+  if (digitalRead(PULSADOR[0]) == LOW){
+    SentidoDelLed = SecuenciaAscendente; 
+    }
+  else if (digitalRead(PULSADOR[1]) == LOW){
+    SentidoDelLed = SecuenciaDescendente; 
+    } 
+
+  if (SentidoDelLed == SecuenciaAscendente)
+  {
+    digitalWrite(LED[EstadoDelLed], LOW); 
+    EstadoDelLed++;                     
+    if ( EstadoDelLed >= NumeroDeLeds ){       
+      EstadoDelLed = 0;           
+      }
+    digitalWrite(LED[EstadoDelLed], HIGH); 
+  }
+    else 
+  {
+    digitalWrite(LED[EstadoDelLed], LOW);
+    EstadoDelLed--;                  
+    if ( EstadoDelLed < 0 ){            
+      EstadoDelLed = (NumeroDeLeds);      
+    }
+    digitalWrite(LED[EstadoDelLed], HIGH); 
+  }
+  delay(TiempoDeDuracion);  
+}
