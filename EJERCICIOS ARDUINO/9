@@ -1,0 +1,35 @@
+#include <Arduino.h>
+
+/*Ej9-EstructuraSensores:
+Crear una estructurallamada sensores, la cual deberá estar formada por 3 variables: 
+una tipo char, en la que se almacenará una letra indicativa del tipo de sensor; 
+una tipo int, donde se almacenará el valor del sensor, una tipo unsigned long donde 
+se almacenaráel tiempo desde la última medición.Crear una variable como una estructura 
+del tipo sensory verificar el tamaño de memoria que ocupa.Verificar el funcionamiento 
+de este programa tanto encomputadora como enArduino. ¿Qué diferencias hay?*/
+
+struct sensores{
+    char nombre;  // ocupan un byte.
+    int valor;    // ocupan 2 bytes (16 bits)
+    long tiempo;  // ocupa 4 bytes (32 bits)
+}ldr;
+
+struct sensoresb{
+    uint32_t tiempo;  //4 bytes
+    uint16_t valor;   //2 bytes
+    char nombre;      //1 byte 
+}temperatura;
+
+void setup(){
+  Serial.begin(9600);
+}
+
+void loop() {
+  Serial.print("El tamaño de la estructura es: ");
+  int tamanio =sizeof(ldr); 
+  Serial.println(tamanio);
+  Serial.print("El tamaño de la estructura con tipos de datos estandar es: ");
+  tamanio =sizeof(temperatura);
+  Serial.println(tamanio);
+  while(true);
+}

@@ -1,0 +1,27 @@
+#include <Arduino.h>
+
+/*Ej6-ADC-PWM:
+Realizar la medición de un sensor conectado al ADC y producir una variación proporcional 
+en la salida PWM. Ejemplos:
+•Potenciómetro que regule el brillo de un LED, la velocidad de un motor o ventilador.
+•LDR que regule el brillo de un LED.
+•Sensor de temperatura que regules la velocidad de un ventilador.*/
+
+//ejemplo de modificar el brillo de un led
+
+#define SENSOR  0   //pin de entrada para el sensor
+#define LED     13  //pin de salida para el led
+
+float conversion = 0;
+int lectura = 0;
+
+void setup(){  
+  pinMode(LED,OUTPUT);//declaro el pin 13(LED)como salida
+}
+
+void loop(){
+  lectura = analogRead(SENSOR);      //Codigo para leer el valor analógico existente en el pin 0 (SENSOR)
+  conversion = (lectura*255)/1023;   //Formula para adecuar la resolución de 10 bits del ADC a la de 8 bits del PWM
+  analogWrite(LED,conversion);       //Para escribir un valor analógico al pin especificado
+  delay(20);
+}
